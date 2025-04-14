@@ -1,6 +1,6 @@
 #include <iostream>
 #include <locale.h>
-#include "lde.h"
+#include "Servidor.h"
 
 using namespace std;
 int main(){
