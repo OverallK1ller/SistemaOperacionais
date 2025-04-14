@@ -7,11 +7,8 @@
 using namespace std;
 
 struct No {
-    string produto;
-    string categoria;
-    float valor;
-    int quantidade;
-    float desconto;
+    int id=0;
+    char nome[50];
     No *eloA, *eloP;
   };
   
@@ -25,13 +22,16 @@ struct No {
     lista.fim = nullptr;
   }
   
-  // Função para converter uma string em float
-float stringToFloat(const string &str) {
-    istringstream iss(str);
-    float result;
-    iss >> result;
-    return result;
+  //função para mostrar o nome
+  void mostrar_dados(No dado){
+    cout<< dado.id<<": ";
+    int i=0;
+    char exit[1];
+    while(dado.nome[i]!= exit[0]){
+    cout<<dado.nome[i];
+    }
   }
+/*
   // Função para remover espaços em branco de uma string
 string trim(const string &str) {
     size_t first = str.find_first_not_of(
@@ -46,28 +46,40 @@ string trim(const string &str) {
     return str.substr(
         first, last - first + 1); // Retorna a substring sem os espaços em branco
   }
-  
+  */
   
 // Função para buscar um produto na lista duplamente encadeada
 bool buscarLde(Lde &lista) {
     No *aux = lista.comeco;
-    string produto;
-    cout << "digite um produto para buscar: ";
-    cin >> produto;
+    int id_busca;
+    cout << "digite um id para buscar: ";
+    cin >> id_busca;
     cout << endl;
     while (aux != nullptr) {
-      if (aux->produto == produto) {
-        cout << aux->categoria << " ";
-        cout << aux->produto << " ";
-        cout << aux->valor << " ";
-        cout << aux->quantidade << " ";
-        cout << aux->desconto << "\n";
+      if (aux->id == id_busca) {
+        mostrar_dados(*aux);
         return true;
       }
       aux = aux->eloP;
     }
     cout << "\n\tproduto não encontrado\n";
     return false;
+  }
+  
+  
+  void preencher_no_string(No novidade, string nome){
+      for(int i=0;i<50;i++){
+        novidade.nome[i]=nome[i];
+      }
+
+  }
+
+  void preencher_no_no(No novidade, No novo){
+    novo.id=novidade.id;
+      for (int i=0; i<50; i++){
+        novo.nome[i] = novidade.nome[i];
+      }
+    
   }
   
   // Função para inserir um nó no final da lista duplamente encadeada
@@ -78,11 +90,9 @@ bool buscarLde(Lde &lista) {
     if (novo == nullptr)
       return false;
   
-    novo->categoria = novidade.categoria;
-    novo->produto = novidade.produto;
-    novo->valor = novidade.valor;
-    novo->quantidade = novidade.quantidade;
-    novo->desconto = novidade.desconto;
+    preencher_no_no(novidade,*novo);
+    
+    
   
     novo->eloA = nullptr;
     novo->eloP = nullptr;
@@ -102,32 +112,20 @@ bool buscarLde(Lde &lista) {
   }
   
   // Função para adicionar um novo produto à lista
-  bool INSERT(Lde &lista) {
+  bool adicionarproduto(Lde &lista) {
     No *novidade = new No;
     No *aux = lista.comeco;
-  
-    cout << "\n\nDigite a categoria do produto: ";
-    cin >> novidade->categoria;
+    string nome;
+    novidade->id =lista.fim->id+1;
+  while(1){
+    cout << "\n\nDigite o nome do cliente: ";
+    cin >> nome;
     cout << endl;
-    cout << "Digite o nome do produto: ";
-    cin >> novidade->produto;
-    cout << endl;
-    while (aux != nullptr) {
-      if (aux->produto == novidade->produto) {
-        cout << "\tproduto já cadastrado\n";
-        return false;
-      }
-      aux = aux->eloP;
-    }
-    cout << "\tDigite o preço do produto: ";
-    cin >> novidade->valor;
-    cout << endl;
-    cout << "\tDigite a quantidade do produto:";
-    cin >> novidade->quantidade;
-    cout << endl;
-    cout << "\tDigite o desconto do produto: ";
-    cin >> novidade->desconto;
-    cout << endl;
+    if (nome.length()>50) break;
+  }
+  preencher_no_string(*novidade,nome);
+
+   
     inserirFinalLde(lista, *novidade);
     return true;
   }
@@ -147,28 +145,18 @@ int lerarq(Lde &lista) {
     string linha;
     while (getline(arquivo, linha)) {
       istringstream iss(linha);
-      string categoria, produto;
-      string quantidade_str, valor_str, desconto_str;
+      string id, nome;
+      
   
       // Extrai os valores da linha separados por vírgula
-      if (getline(iss, categoria, ',') && getline(iss, produto, ',') &&
-          getline(iss, valor_str, ',') && getline(iss, quantidade_str, ',') &&
-          getline(iss, desconto_str)) {
+      if (getline(iss, id, ',') && getline(iss, nome, ',')) {
         // Converte as strings para floats
   
-        novidade->categoria = trim(categoria);
-        novidade->produto = trim(produto);
-        trim(valor_str);
-        trim(quantidade_str);
-        trim(desconto_str);
-        trim(desconto_str);
+        novidade->id = stoi(id);
+        preencher_no_string(*novidade,nome);
   
-        novidade->quantidade = stoi(quantidade_str);
-        novidade->valor = stringToFloat(valor_str);
-        novidade->desconto = stringToFloat(desconto_str);
-        novidade->categoria = trim(categoria);
-        novidade->produto = trim(produto);
-  
+       
+      
         inserirFinalLde(lista, *novidade);
   
       } else {
@@ -179,6 +167,13 @@ int lerarq(Lde &lista) {
     return 0;
   }
   
+string ctos(No aux, string nome){
+for (int i=0;i<50;i++){
+  nome[i]=aux.nome[i];
+}
+return nome;
+}
+
   // Função para escrever os dados da lista em um arquivo
   bool fim(Lde &lista) {
   
@@ -188,7 +183,7 @@ int lerarq(Lde &lista) {
     // Abrindo o arquivo em modo de escrita, o que vai limpar o conteúdo do
     // arquivo
     ofstream file(filename, ofstream::out | ofstream::trunc);
-  
+  string nome;
     if (file.is_open()) {
       file.close();
   
@@ -200,8 +195,7 @@ int lerarq(Lde &lista) {
       if (file.is_open()) {
         while (aux != nullptr) {
           // Escrevendo informações no arquivo
-          file << aux->categoria << " , " << aux->produto << " , " << aux->valor
-               << " , " << aux->quantidade << " , " << aux->desconto << endl;
+          file << aux->id << " , " << ctos(*aux, nome)  << endl;
           aux = aux->eloP;
         }
         file.close();
@@ -221,23 +215,20 @@ int lerarq(Lde &lista) {
   
     while (aux != nullptr) {
   
-      cout << "\tCategoria: " << aux->categoria << endl;
-      cout << "\tproduto: " << aux->produto << endl;
-      cout << "\tValor: " << aux->valor << endl;
-      cout << "\tQuantidade: " << aux->quantidade << endl;
-      cout << "\tDesconto: " << aux->desconto << endl;
+      cout << "\tid: " << aux->id << endl;
+      cout << "\tnome: " << aux->nome << endl;
       cout << "\n";
       aux = aux->eloP;
     }
   }
   
   // Função para retirar um produto da lista
-  bool DELETE(Lde &lista, string produto) {
+  bool retirarLde(Lde &lista, int id) {
     if (lista.comeco == nullptr)
       return false;
   
     No *aux = lista.comeco;
-    while (aux != nullptr && aux->produto != produto) {
+    while (aux != nullptr && aux->id != id) {
       aux = aux->eloP;
     }
     if (aux == nullptr)
@@ -276,34 +267,50 @@ int lerarq(Lde &lista) {
   
   // Função para retirar um produto da lista com base na entrada do usuário
   bool retirar(Lde &lista) {
-    string produto;
-    cout << "Digite o produto que deseja retirar: ";
-    cin >> produto;
+    int id;
+    cout << "Digite o id do produto que deseja retirar: ";
+    cin >> id;
     cout << endl;
-    DELETE(lista, produto);
+    retirarLde(lista, id);
     return true;
   }
   
+bool verifica_id(Lde lista,int mudanca_id){
+  if (lista.comeco == nullptr)
+  return true;
+
+No *aux = lista.comeco;
+while (aux != nullptr && aux->id != mudanca_id) {
+  aux = aux->eloP;
+}
+if (aux == nullptr)
+  return true; 
+if(aux->id == mudanca_id)
+return false;
+
+return false;
+}
+
   // Função para mudar o preço, a quantidade ou o desconto de um produto
   bool mudarproduto(Lde lista) {
     No *aux = lista.comeco;
     int menus = 0;
     int esc = 0;
-    float mudanca;
-    int estoque;
-    string produto;
+    int id;
+    string nome;
+    int mudanca_id;
+    string mudanca_nome;
   
     while (menus != 4) {
       mostrarLdeC(lista);
   
-      cout << "\tDigite o nome do produto: ";
-      cin >> produto;
+      cout << "\tDigite o id do produto: ";
+      cin >> id;
       cout << endl;
       cout << "\tDigite o que quer mudar: " << endl;
-      cout << "\t(1)-Preco" << endl;
-      cout << "\t(2)-Quantidade" << endl;
-      cout << "\t(3)-Desconto" << endl;
-      cout << "\t(4)-Sair" << endl;
+      cout << "\t(1)-Id" << endl;
+      cout << "\t(2)-Nome" << endl;
+      cout << "\t(3)-Sair" << endl;
       cout << "\tEscolha: ";
       cin >> menus;
       cout << endl;
@@ -311,11 +318,16 @@ int lerarq(Lde &lista) {
       switch (menus) {
       case 1:
         while (aux != nullptr) {
-          if (aux->produto == produto) {
-            cout << "\tMude o valor: ";
-            cin >> mudanca;
+          if (aux->id == id) {
+            cout << "\tMude o id: ";
+            cin >> mudanca_id;
             cout << endl;
-            aux->valor = mudanca;
+            if (verifica_id(lista,mudanca_id)== true){
+            aux->id = mudanca_id;
+            }
+            else{
+              cout<<"impossivel mudar o id porque esse id já existe em outro produto";
+            }
   
             break;
           }
@@ -324,11 +336,12 @@ int lerarq(Lde &lista) {
         break;
       case 2:
         while (aux != nullptr) {
-          if (aux->produto == produto) {
-            cout << "\tMude o estoque: ";
-            cin >> estoque;
+          if (aux->id == id) {
+            cout << "\tMude o nome: ";
+            cin >> mudanca_nome;
             cout << endl;
-            aux->quantidade = estoque;
+            preencher_no_string(*aux,nome);
+            
   
             break;
           }
@@ -336,22 +349,8 @@ int lerarq(Lde &lista) {
         }
         break;
   
+      
       case 3:
-        while (aux != nullptr) {
-          if (aux->produto == produto) {
-            cout << "\tMude o desconto: ";
-            cin >> mudanca;
-            cout << endl;
-  
-            aux->desconto = mudanca;
-  
-            break;
-          }
-          aux = aux->eloP;
-        }
-        break;
-  
-      case 4:
         cout << "saindo";
         break;
       }
@@ -382,23 +381,23 @@ int lerarq(Lde &lista) {
   }
   
   
-// Função para procurar produtos de uma determinada categoria na lista
-bool procurarcategoria(Lde &lista) {
-    string categoria;
+// Função para procurar por nome
+bool procurarnome(Lde &lista) {
+    string nome;
     No *aux = lista.comeco;
-    cout << "\tQual categoria voce gostaria de procurar?\n";
-    cin >> categoria;
+    cout << "\tQual nome voce gostaria de procurar?\n";
+    cin >> nome;
     while (aux != nullptr) {
-      if (aux->categoria == categoria && aux->quantidade != 0) {
+      if (aux->nome ==nome) {
         cout << endl;
-        cout << "\tProduto:" << aux->produto << endl;
-        cout << "\tValor: " << aux->valor << endl;
-        cout << "\tQuantidade: " << aux->quantidade << endl;
-        cout << "\tDesconto: " << aux->desconto << endl;
+        cout << "\tId:" << aux->id << endl;
+        cout << "\tNome: " << aux->nome << endl;
         cout << endl;
+        return true;
       }
       aux = aux->eloP;
     }
+    return false;
   }
   
   
