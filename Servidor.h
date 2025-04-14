@@ -68,7 +68,7 @@ bool buscarLde(Lde &lista) {
   
   
   void preencher_no_string(No novidade, string nome){
-      for(int i=0;i<50;i++){
+      for(int i=0;i<nome.length();i++){
         novidade.nome[i]=nome[i];
       }
 
@@ -121,7 +121,7 @@ bool buscarLde(Lde &lista) {
     cout << "\n\nDigite o nome do cliente: ";
     cin >> nome;
     cout << endl;
-    if (nome.length()>50) break;
+    if (nome.length()<50) break;
   }
   preencher_no_string(*novidade,nome);
 
@@ -340,8 +340,12 @@ return false;
             cout << "\tMude o nome: ";
             cin >> mudanca_nome;
             cout << endl;
+            if(mudanca_nome.length()<50){
             preencher_no_string(*aux,nome);
-            
+            }
+            else{
+              cout<< "esse nome está maior do que o comportado";
+            }
   
             break;
           }
