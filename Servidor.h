@@ -102,7 +102,7 @@ bool buscarLde(Lde &lista) {
   }
   
   // Função para adicionar um novo produto à lista
-  bool adicionarproduto(Lde &lista) {
+  bool INSERT(Lde &lista) {
     No *novidade = new No;
     No *aux = lista.comeco;
   
@@ -232,7 +232,7 @@ int lerarq(Lde &lista) {
   }
   
   // Função para retirar um produto da lista
-  bool retirarLde(Lde &lista, string produto) {
+  bool DELETE(Lde &lista, string produto) {
     if (lista.comeco == nullptr)
       return false;
   
@@ -280,7 +280,7 @@ int lerarq(Lde &lista) {
     cout << "Digite o produto que deseja retirar: ";
     cin >> produto;
     cout << endl;
-    retirarLde(lista, produto);
+    DELETE(lista, produto);
     return true;
   }
   
