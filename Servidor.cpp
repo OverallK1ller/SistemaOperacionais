@@ -11,9 +11,11 @@ using namespace std;
 
 pthread_mutex_t mutex_write = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t mutex_id = PTHREAD_MUTEX_INITIALIZER;
-Lde lista;
+
+Lde lista; // Lista duplamente encadeada usada como "banco de dados"
 int id_global = 1;
 
+// Função que processa cada requisição recebida em uma thread separada
 void* processa_requisicao(void* arg) {
     string comando = *(string*)arg;
     delete (string*)arg;
@@ -22,6 +24,7 @@ void* processa_requisicao(void* arg) {
     string tipo;
     getline(iss, tipo, ',');
 
+    //Inserimento de um novo item
     if (tipo == "INSERT") {
         string nome;
         getline(iss, nome);
@@ -39,7 +42,8 @@ void* processa_requisicao(void* arg) {
 
         cout << "[INSERT] Nome inserido: " << nome << " com ID " << novo.id << endl;
 
-    } else if (tipo == "DELETE") {
+    } //Exclusão de um item ja existe no 'banco de dados
+    else if (tipo == "DELETE") {
         string id_str;
         getline(iss, id_str);
         int id = stoi(id_str);
@@ -50,7 +54,8 @@ void* processa_requisicao(void* arg) {
 
         cout << (ok ? "[DELETE] ID " + id_str + " removido." : "[DELETE] ID não encontrado.") << endl;
 
-    } else if (tipo == "SELECT") {
+    } //Buscar por item no banco de dados
+    else if (tipo == "SELECT") {
         string id_str;
         getline(iss, id_str);
         int id = stoi(id_str);
@@ -61,7 +66,8 @@ void* processa_requisicao(void* arg) {
         else
             cout << "[SELECT] ID " << id << " não encontrado." << endl;
 
-    } else if (tipo == "UPDATE") {
+    }//Atualiza um item ja existente no banco de dados
+     else if (tipo == "UPDATE") {
         string id_str, nome;
         getline(iss, id_str, ',');
         getline(iss, nome);
@@ -85,6 +91,7 @@ void* processa_requisicao(void* arg) {
 }
 
 int main() {
+    //Cria o FIFO e abre para leitura
     mkfifo("requisicoes_fifo", 0666);
     int fd = open("requisicoes_fifo", O_RDONLY);
 

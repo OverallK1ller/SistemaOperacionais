@@ -6,6 +6,7 @@
 
 using namespace std;
 
+// Função que exibe o menu de opções para o usuário
 void menu() {
     cout << "\nEscolha a operação:" << endl;
     cout << "1. Inserir produto (INSERT)" << endl;
@@ -19,7 +20,8 @@ int main() {
     int fd;
     string comando;
     int opcao;
-
+    
+    //Abre o FIFO para escrita
     fd = open("requisicoes_fifo", O_WRONLY);
     if (fd == -1) {
         perror("Erro ao abrir o pipe");
