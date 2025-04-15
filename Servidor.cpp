@@ -45,7 +45,22 @@ void* processa_requisicao(void* arg) {
         cout << "[INSERT] Nome inserido: " << nome << " com ID " << novo.id << endl;
 
     } //Exclusão de um item ja existe no 'banco de dados
-    else if (tipo == "DELETE") {
+    else if (tipo == "DELETE WHERE nome") {
+        string nome;
+        getline(iss, nome);
+        
+
+        pthread_mutex_lock(&mutex_write);
+        bool ok = retirarLdenm(lista, nome);
+        salvarLdeEmArquivo(lista);
+
+        pthread_mutex_unlock(&mutex_write);
+
+        cout << (ok ? "[DELETE] nome " + nome + " removido." : "[DELETE] nome não encontrado.") << endl;
+
+     //Buscar por item no banco de dados
+   
+    }else if (tipo == "DELETE WHERE id") {
         string id_str;
         getline(iss, id_str);
         int id = stoi(id_str);

@@ -60,6 +60,21 @@ bool retirarLde(Lde& lista, int id) {
     return true;
 }
 
+
+bool retirarLdenm(Lde& lista, string nome) {
+    No* aux = lista.comeco;
+    while (aux != nullptr && aux->nome != nome) {
+        aux = aux->eloP;
+    }
+    if (!aux) return false;
+    if (aux == lista.comeco) lista.comeco = aux->eloP;
+    if (aux == lista.fim) lista.fim = aux->eloA;
+    if (aux->eloA) aux->eloA->eloP = aux->eloP;
+    if (aux->eloP) aux->eloP->eloA = aux->eloA;
+    delete aux;
+    return true;
+}
+
 void mostrarLdeC(Lde& lista) {
     No* aux = lista.comeco;
     while (aux) {

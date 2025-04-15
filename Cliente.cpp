@@ -10,11 +10,12 @@ using namespace std;
 void menu() {
     cout << "\nEscolha a operação:" << endl;
     cout << "1. Inserir produto (INSERT)" << endl;
-    cout << "2. Deletar produto (DELETE)" << endl;
-    cout << "3. Atualizar produto (UPDATE)" << endl;
-    cout << "4. Consultar produto id (SELECT)" << endl;
-    cout << "5. Consultar produto nome (SELECT)" << endl;
-    cout << "6. Sair" << endl;
+    cout << "2. Deletar produto por id (DELETE)" << endl;
+    cout << "3. Deletar produto por nome (DELETE)" << endl;
+    cout << "4. Atualizar produto (UPDATE)" << endl;
+    cout << "5. Consultar produto id (SELECT)" << endl;
+    cout << "6. Consultar produto nome (SELECT)" << endl;
+    cout << "7. Sair" << endl;
 }
 
 int main() {
@@ -46,10 +47,17 @@ int main() {
                 int id;
                 cout << "Digite o ID do produto a ser removido: ";
                 cin >> id;
-                comando = "DELETE," + to_string(id);
+                comando = "DELETE WHERE id," + to_string(id);
+                break;
+            }            
+            case 3: {
+                string nome;
+                cout << "Digite o nome do produto a ser removido: ";
+                cin >> nome;
+                comando = "DELETE WHERE nome," + nome;
                 break;
             }
-            case 3: {
+            case 4: {
                 int id;
                 string nome;
                 cout << "Digite o ID do produto a ser atualizado: ";
@@ -59,21 +67,21 @@ int main() {
                 comando = "UPDATE," + to_string(id) + "," + nome;
                 break;
             }
-            case 4: {
+            case 5: {
                 int id;
                 cout << "Digite o ID do produto a ser consultado: ";
                 cin >> id;
                 comando = "SELECT WHERE id," + to_string(id);
                 break;
             }
-            case 5: {
+            case 6: {
                 string nome;
                 cout << "Digite o nome do produto a ser consultado: ";
                 cin >> nome;
                 comando = "SELECT WHERE nome," + nome;
                 break;
             }
-            case 6:
+            case 7:
                 cout << "Saindo...\n";
                 close(fd);
                 return 0;
