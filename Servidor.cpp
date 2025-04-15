@@ -33,7 +33,9 @@ void* processa_requisicao(void* arg) {
         while(1){
             if (verificaid(lista, id_global))
                 break;
+                pthread_mutex_lock(&mutex_id);
             id_global++;
+            pthread_mutex_unlock(&mutex_id);
         }
         pthread_mutex_lock(&mutex_id);
         novo.id = id_global++;
