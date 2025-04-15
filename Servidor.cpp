@@ -58,12 +58,9 @@ void* processa_requisicao(void* arg) {
 
         cout << (ok ? "[DELETE] ID " + id_str + " removido." : "[DELETE] ID não encontrado.") << endl;
 
-<<<<<<< HEAD
     } //Buscar por item no banco de dados
     else if (tipo == "SELECT") {
-=======
     } else if (tipo == "SELECTID") {
->>>>>>> 5071c12 (sdf)
         string id_str;
         getline(iss, id_str);
         int id = stoi(id_str);
@@ -74,10 +71,8 @@ void* processa_requisicao(void* arg) {
         else
             cout << "[SELECT] ID " << id << " não encontrado." << endl;
 
-<<<<<<< HEAD
-    }//Atualiza um item ja existente no banco de dados
-     else if (tipo == "UPDATE") {
-=======
+    //Atualiza um item ja existente no banco de dados
+     
     } else if (tipo == "SELECTNM") {
         string nome;
         getline(iss, nome);
@@ -90,7 +85,6 @@ void* processa_requisicao(void* arg) {
             cout << "[SELECT] Nome " << nome << " não encontrado." << endl;
 
     } else if (tipo == "UPDATE") {
->>>>>>> 5071c12 (sdf)
         string id_str, nome;
         getline(iss, id_str, ',');
         getline(iss, nome);
@@ -116,12 +110,9 @@ void* processa_requisicao(void* arg) {
 }
 
 int main() {
-<<<<<<< HEAD
     //Cria o FIFO e abre para leitura
     mkfifo("requisicoes_fifo", 0666);
-=======
-   mkfifo("requisicoes_fifo", 0666);
->>>>>>> 5071c12 (sdf)
+    // Abre o FIFO para leitura
     int fd = open("requisicoes_fifo", O_RDONLY);
 
     inicializarLde(lista);
