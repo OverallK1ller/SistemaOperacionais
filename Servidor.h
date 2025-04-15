@@ -77,3 +77,41 @@ No* buscarPorId(Lde& lista, int id) {
     }
     return nullptr;
 }
+No* buscarPornm(Lde& lista, string nome) {
+    No* aux = lista.comeco;
+    while (aux) {
+        if (aux->nome == nome) return aux;
+        aux = aux->eloP;
+    }
+    return nullptr;
+}
+void salvarLdeEmArquivo(Lde& lista) {
+    ofstream arq("dados.txt");
+    No* aux = lista.comeco;
+    while (aux) {
+        arq << aux->id << "," << aux->nome << endl;
+        aux = aux->eloP;
+    }
+    arq.close();
+    cout << "[ARQUIVO] dados.txt atualizado.\n";
+}
+
+void carregarLdeDeArquivo(Lde& lista) {
+    ifstream arq("dados.txt");
+    if (!arq.is_open()) return;
+
+    string linha;
+    while (getline(arq, linha)) {
+        istringstream ss(linha);
+        string id_str, nome;
+        getline(ss, id_str, ',');
+        getline(ss, nome);
+
+        No novo;
+        novo.id = stoi(id_str);
+        preencher_nome(novo, nome);
+        inserirFinalLde(lista, novo);
+    }
+    arq.close();
+}
+

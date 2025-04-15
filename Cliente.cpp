@@ -13,7 +13,8 @@ void menu() {
     cout << "2. Deletar produto (DELETE)" << endl;
     cout << "3. Atualizar produto (UPDATE)" << endl;
     cout << "4. Consultar produto (SELECT)" << endl;
-    cout << "5. Sair" << endl;
+    cout << "5. Consultar produto (SELECT)" << endl;
+    cout << "6. Sair" << endl;
 }
 
 int main() {
@@ -62,10 +63,17 @@ int main() {
                 int id;
                 cout << "Digite o ID do produto a ser consultado: ";
                 cin >> id;
-                comando = "SELECT," + to_string(id);
+                comando = "SELECTID," + to_string(id);
                 break;
             }
-            case 5:
+            case 5: {
+                string nome;
+                cout << "Digite o nome do produto a ser consultado: ";
+                cin >> nome;
+                comando = "SELECTnm," + nome;
+                break;
+            }
+            case 6:
                 cout << "Saindo...\n";
                 close(fd);
                 return 0;

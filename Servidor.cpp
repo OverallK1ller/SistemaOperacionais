@@ -38,6 +38,8 @@ void* processa_requisicao(void* arg) {
 
         pthread_mutex_lock(&mutex_write);
         inserirFinalLde(lista, novo);
+        salvarLdeEmArquivo(lista);
+
         pthread_mutex_unlock(&mutex_write);
 
         cout << "[INSERT] Nome inserido: " << nome << " com ID " << novo.id << endl;
@@ -50,12 +52,18 @@ void* processa_requisicao(void* arg) {
 
         pthread_mutex_lock(&mutex_write);
         bool ok = retirarLde(lista, id);
+        salvarLdeEmArquivo(lista);
+
         pthread_mutex_unlock(&mutex_write);
 
         cout << (ok ? "[DELETE] ID " + id_str + " removido." : "[DELETE] ID não encontrado.") << endl;
 
+<<<<<<< HEAD
     } //Buscar por item no banco de dados
     else if (tipo == "SELECT") {
+=======
+    } else if (tipo == "SELECTID") {
+>>>>>>> 5071c12 (sdf)
         string id_str;
         getline(iss, id_str);
         int id = stoi(id_str);
@@ -66,8 +74,23 @@ void* processa_requisicao(void* arg) {
         else
             cout << "[SELECT] ID " << id << " não encontrado." << endl;
 
+<<<<<<< HEAD
     }//Atualiza um item ja existente no banco de dados
      else if (tipo == "UPDATE") {
+=======
+    } else if (tipo == "SELECTNM") {
+        string nome;
+        getline(iss, nome);
+        
+
+        No* res = buscarPornm(lista, nome);
+        if (res)
+            cout << "[SELECT] Nome: " << res->nome << ", ID: " << res->id << endl;
+        else
+            cout << "[SELECT] Nome " << nome << " não encontrado." << endl;
+
+    } else if (tipo == "UPDATE") {
+>>>>>>> 5071c12 (sdf)
         string id_str, nome;
         getline(iss, id_str, ',');
         getline(iss, nome);
@@ -77,6 +100,8 @@ void* processa_requisicao(void* arg) {
         No* res = buscarPorId(lista, id);
         if (res) {
             preencher_nome(*res, nome);
+            salvarLdeEmArquivo(lista);
+
             cout << "[UPDATE] ID " << id << " alterado para: " << nome << endl;
         } else {
             cout << "[UPDATE] ID " << id << " não encontrado." << endl;
@@ -91,14 +116,19 @@ void* processa_requisicao(void* arg) {
 }
 
 int main() {
+<<<<<<< HEAD
     //Cria o FIFO e abre para leitura
     mkfifo("requisicoes_fifo", 0666);
+=======
+   mkfifo("requisicoes_fifo", 0666);
+>>>>>>> 5071c12 (sdf)
     int fd = open("requisicoes_fifo", O_RDONLY);
 
     inicializarLde(lista);
+    carregarLdeDeArquivo(lista);
 
     while (true) {
-        char buffer[128] = {0};
+        char buffer[256] = {0};
         int n = read(fd, buffer, sizeof(buffer));
         if (n > 0) {
             string* comando = new string(buffer);
