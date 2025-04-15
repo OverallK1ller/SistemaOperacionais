@@ -1,0 +1,5 @@
+g++ -o cliente Cliente.cpp
+./cliente
+
+g++ -o servidor Servidor.cpp -pthread
+./servidor
