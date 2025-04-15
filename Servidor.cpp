@@ -30,6 +30,11 @@ void* processa_requisicao(void* arg) {
         getline(iss, nome);
 
         No novo;
+        while(1){
+            if (verificaid(lista, id_global))
+                break;
+            id_global++;
+        }
         pthread_mutex_lock(&mutex_id);
         novo.id = id_global++;
         pthread_mutex_unlock(&mutex_id);

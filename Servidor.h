@@ -84,6 +84,15 @@ void mostrarLdeC(Lde& lista) {
     }
 }
 
+bool verificaid(Lde& lista, int id) {
+    No* aux = lista.comeco;
+    while (aux) {
+        if (aux->id == id) return false;
+        aux = aux->eloP;
+    }
+    return true;
+}
+
 No* buscarPorId(Lde& lista, int id) {
     No* aux = lista.comeco;
     while (aux) {

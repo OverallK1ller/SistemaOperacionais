@@ -1,3 +1,4 @@
-1,pedra
-2,olho
-4,ovo
+1,cabra
+2,poste
+3,cobra
+4,peixe
