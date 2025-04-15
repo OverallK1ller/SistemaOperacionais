@@ -12,8 +12,8 @@ void menu() {
     cout << "1. Inserir produto (INSERT)" << endl;
     cout << "2. Deletar produto (DELETE)" << endl;
     cout << "3. Atualizar produto (UPDATE)" << endl;
-    cout << "4. Consultar produto (SELECT)" << endl;
-    cout << "5. Consultar produto (SELECT)" << endl;
+    cout << "4. Consultar produto id (SELECT)" << endl;
+    cout << "5. Consultar produto nome (SELECT)" << endl;
     cout << "6. Sair" << endl;
 }
 
@@ -63,14 +63,14 @@ int main() {
                 int id;
                 cout << "Digite o ID do produto a ser consultado: ";
                 cin >> id;
-                comando = "SELECTID," + to_string(id);
+                comando = "SELECT WHERE id," + to_string(id);
                 break;
             }
             case 5: {
                 string nome;
                 cout << "Digite o nome do produto a ser consultado: ";
                 cin >> nome;
-                comando = "SELECTnm," + nome;
+                comando = "SELECT WHERE nome," + nome;
                 break;
             }
             case 6:

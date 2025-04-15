@@ -58,9 +58,9 @@ void* processa_requisicao(void* arg) {
 
         cout << (ok ? "[DELETE] ID " + id_str + " removido." : "[DELETE] ID não encontrado.") << endl;
 
-    } //Buscar por item no banco de dados
-    else if (tipo == "SELECT") {
-    } else if (tipo == "SELECTID") {
+     //Buscar por item no banco de dados
+   
+    } else if (tipo == "SELECT WHERE id") {
         string id_str;
         getline(iss, id_str);
         int id = stoi(id_str);
@@ -73,7 +73,7 @@ void* processa_requisicao(void* arg) {
 
     //Atualiza um item ja existente no banco de dados
      
-    } else if (tipo == "SELECTNM") {
+    } else if (tipo == "SELECT WHERE nome") {
         string nome;
         getline(iss, nome);
         
